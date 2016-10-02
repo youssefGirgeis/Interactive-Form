@@ -3,6 +3,7 @@ var $otherTitle = $('#other-title');
 var $colorLabel = $('#colors-js-puns label');
 var $colorMenu = $('#color');
 var $colorOptions = $('#color option');
+var total = 0;
 
 // function below, when page loads, gives focus to the first text field 
 function setFocus(){
@@ -74,6 +75,13 @@ function matchDesignColor(){
         }
             
     });
+}
+
+function getMoney(event){
+    var startIndex = event.indexOf('$');
+    var endIndex = event.length;
+    var money = parseInt(event.substr(startIndex + 1, endIndex - 1));
+    return money;
 }
 
 
