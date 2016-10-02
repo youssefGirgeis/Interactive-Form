@@ -22,8 +22,9 @@ function createOtherRole(){
     for(var i =0; i < $('#title').children().length; i++){ // a loop for all job roles
         if($('#title option:selected').eq(i).text() === 'Other'){ // only for selected option
             $otherTitle.show(); // change the state of the text field from hide to show.
+            break;
         }else{
-            //$otherTitle.hide();
+            $otherTitle.hide();
         }
     }
 }
