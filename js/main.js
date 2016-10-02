@@ -80,10 +80,27 @@ function matchDesignColor(){
 function getMoney(event){
     var startIndex = event.indexOf('$');
     var endIndex = event.length;
-    var money = parseInt(event.substr(startIndex + 1, endIndex - 1));
-    return money;
+    return parseInt(event.substr(startIndex + 1, endIndex - 1));
+}
+
+function registerActivity(){
+    $('.total-money').css('display', 'Block');
+    var event = $(this).parent().text();
+    var money = getMoney(event);
+    if($(this).is(':checked')){
+        total += money;
+        $('.total').text('$'+total);
+    }else{
+        total -= money;
+        if(total === 0){
+            $('.total-money').css('display', 'none');
+        }else{
+            $('.total').text('$'+total);
+        }
+    }
 }
 
 
 $('#title').on('change', createOtherRole);
 $('#design').on('change', showColorMenu);
+$('input[type="checkbox"]').on('change', registerActivity);

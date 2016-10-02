@@ -135,6 +135,12 @@ button:hover {
 	margin-top: 1.25em;
 }
 
+.total-money{
+    color: darkslateblue;
+    font-weight: bold;
+    display: none;
+}
+
 /* ================================= 
   Helper Classes
 ==================================== */
