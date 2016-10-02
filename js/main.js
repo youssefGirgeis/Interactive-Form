@@ -1,5 +1,6 @@
 var $name = $('#name'); //input field for the name.
 var $otherTitle = $('#other-title');
+var $colorLabel = $('#colors-js-puns label');
 var $colorMenu = $('#color');
 
 
@@ -11,7 +12,7 @@ function setFocus(){
 
 function hideElements(){
     $otherTitle.hide();
-    $labelColor.hide();
+    $colorLabel.hide();
     $colorMenu.hide();
 }
 
@@ -27,5 +28,13 @@ function createOtherRole(){
     }
 }
 
+function showColorMenu(){
+    $colorLabel.show();
+    $colorMenu.show();
+}
+
+
+
 
 $('#title').on('change', createOtherRole);
+$('#design').on('change', showColorMenu);
