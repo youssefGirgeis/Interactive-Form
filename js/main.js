@@ -16,6 +16,9 @@ function hideElements(){
     $otherTitle.hide();
     $colorLabel.hide();
     $colorMenu.hide();
+    $('#credit-card').hide();
+    $('#paypal').hide();
+    $('#bitcoin').hide();
 }
 
 //function below shows an input of type text when a user selects other from
