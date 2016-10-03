@@ -9,6 +9,7 @@ var total = 0;
 // function below, when page loads, gives focus to the first text field 
 function setFocus(){
     $name.focus();
+    $('#payment option[value="credit card"]').attr('selected', true);
     hideElements();
 }
 
@@ -16,7 +17,6 @@ function hideElements(){
     $otherTitle.hide();
     $colorLabel.hide();
     $colorMenu.hide();
-    $('#credit-card').hide();
     $('#paypal').hide();
     $('#bitcoin').hide();
 }
@@ -133,8 +133,20 @@ function registerActivity(){
     }
 }
     
-
+function showMethodOfPayment(){
+   
+    if($('#payment option:selected').text() === 'PayPal'){
+        $('#paypal').show();
+        $('#credit-card').hide();
+        $('#bitcoin').hide();
+    }else if($('#payment option:selected').text() === 'Bitcoin'){
+        $('#bitcoin').show();
+        $('#paypal').hide();
+        $('#credit-card').hide();
+    }
+}
 
 $('#title').on('change', createOtherRole);
 $('#design').on('change', showColorMenu);
 $('input[type="checkbox"]').on('change', registerActivity);
+$('#payment').on('change', showMethodOfPayment);
