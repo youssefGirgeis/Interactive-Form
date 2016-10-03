@@ -104,11 +104,11 @@ function registerActivity(){
         total += money;
         $('.total').text('$'+total);
         
-        
         for(var i=0; i < $('input[type="checkbox"]').length; i++){
             if(date === getEventDate($('input[type="checkbox"]').eq(i).parent().text()) && i !== index){
             
                 $('input[type="checkbox"]').eq(i).prop('disabled', true);
+                $('input[type="checkbox"]').eq(i).parent().css('color', 'grey');
             }
         }
             
@@ -118,6 +118,7 @@ function registerActivity(){
         for(var i=0; i < $('input[type="checkbox"]').length; i++){
             if(date === getEventDate($('input[type="checkbox"]').eq(i).parent().text())){
                 $('input[type="checkbox"]').eq(i).prop('disabled', false);
+                $('input[type="checkbox"]').eq(i).parent().css('color', 'black');
             }
         }
         
