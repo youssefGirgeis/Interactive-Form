@@ -5,6 +5,7 @@ var $colorMenu = $('#color');
 var $colorOptions = $('#color option');
 var total = 0;
 
+
 // function below, when page loads, gives focus to the first text field 
 function setFocus(){
     $name.focus();
@@ -83,15 +84,43 @@ function getMoney(event){
     return parseInt(event.substr(startIndex + 1, endIndex - 1));
 }
 
+
+function getEventDate(event){
+    var startIndex = event.indexOf('—');
+    var end = event.length - (startIndex + 8); 
+    return event.substr(startIndex + 2, end);
+}
+
+
 function registerActivity(){
     $('.total-money').css('display', 'Block');
     var event = $(this).parent().text();
+    
     var money = getMoney(event);
+    var date = getEventDate(event);
+    var index = $(this).parent().index()-1;
+    
     if($(this).is(':checked')){
         total += money;
         $('.total').text('$'+total);
+        
+        
+        for(var i=0; i < $('input[type="checkbox"]').length; i++){
+            if(date === getEventDate($('input[type="checkbox"]').eq(i).parent().text()) && i !== index){
+            
+                $('input[type="checkbox"]').eq(i).prop('disabled', true);
+            }
+        }
+            
     }else{
+        
         total -= money;
+        for(var i=0; i < $('input[type="checkbox"]').length; i++){
+            if(date === getEventDate($('input[type="checkbox"]').eq(i).parent().text())){
+                $('input[type="checkbox"]').eq(i).prop('disabled', false);
+            }
+        }
+        
         if(total === 0){
             $('.total-money').css('display', 'none');
         }else{
@@ -99,6 +128,7 @@ function registerActivity(){
         }
     }
 }
+    
 
 
 $('#title').on('change', createOtherRole);
