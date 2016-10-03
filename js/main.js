@@ -9,7 +9,6 @@ var total = 0;
 // function below, when page loads, gives focus to the first text field 
 function setFocus(){
     $name.focus();
-    $('#payment option[value="credit card"]').attr('selected', true);
     hideElements();
 }
 
@@ -146,7 +145,17 @@ function showMethodOfPayment(){
     }
 }
 
+function validateForm(e){
+    if($name.val() === ''){
+        $('label[for="name"]').css('color', '#932631');
+        $('.error-name').text('(Please provide name before submission)');
+        $name.focus();
+        e.preventDefault();
+    }
+}
+
 $('#title').on('change', createOtherRole);
 $('#design').on('change', showColorMenu);
 $('input[type="checkbox"]').on('change', registerActivity);
 $('#payment').on('change', showMethodOfPayment);
+$('button').on('click', validateForm);
