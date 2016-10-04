@@ -143,6 +143,10 @@ function showMethodOfPayment(){
         $('#bitcoin').show();
         $('#paypal').hide();
         $('#credit-card').hide();
+    }else{
+        $('#bitcoin').hide();
+        $('#paypal').hide();
+        $('#credit-card').show();
     }
 }
 
