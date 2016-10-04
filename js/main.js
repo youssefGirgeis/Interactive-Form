@@ -4,6 +4,7 @@ var $colorLabel = $('#colors-js-puns label');
 var $colorMenu = $('#color');
 var $colorOptions = $('#color option');
 var total = 0;
+var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
 
 // function below, when page loads, gives focus to the first text field 
@@ -145,13 +146,43 @@ function showMethodOfPayment(){
     }
 }
 
-function validateForm(e){
+function validateName(){
     if($name.val() === ''){
         $('label[for="name"]').css('color', '#932631');
         $('.error-name').text('(Please provide name before submission)');
-        $name.focus();
+        $('label[for="name"]').focus();
+        return true;
+    }else{
+        $('label[for="name"]').css('color', 'initial');
+        $('.error-name').text('');
+        return false;
+    }
+}
+
+function validateEmail(){
+    if($('#mail').val() === '' || !re.test($('#mail').val())){
+        
+        $('label[for="mail"]').css('color', '#932631');
+        $('.error-email').text('(Please provide valid email address)');
+        $('label[for="mail"]').focus();
+        return true;
+    }else{
+        $('label[for="mail"]').css('color', 'initial');
+        $('.error-email').text('');
+        return false;
+    }
+}
+
+function validateForm(e){
+    
+    if(validateEmail()){
         e.preventDefault();
     }
+
+    if(validateName()){
+        e.preventDefault();
+    }
+
 }
 
 $('#title').on('change', createOtherRole);
