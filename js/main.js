@@ -6,6 +6,8 @@ var $colorOptions = $('#color option');
 var total = 0;
 var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
+var activityError = $('<p>Please select at least one activity</p>').css('color', '#932631');
+
 
 // function below, when page loads, gives focus to the first text field 
 function setFocus(){
@@ -101,15 +103,21 @@ function registerActivity(){
     
     var money = getMoney(event);
     var date = getEventDate(event);
-    var index = $(this).parent().index()-1;
+    
+    //difference is used to make the first label element's index to be zero.
+    var difference = $('fieldset:eq(2)').children().length - $('fieldset:eq(2) label').length;
+    var index = $(this).parent().index() - difference; // index of the label element
     
     if($(this).is(':checked')){
+        
+        $('fieldset:eq(2) p').hide(); // hide error message when activity been checked.
+        
         total += money;
         $('.total').text('$'+total);
         
         for(var i=0; i < $('input[type="checkbox"]').length; i++){
             if(date === getEventDate($('input[type="checkbox"]').eq(i).parent().text()) && i !== index){
-            
+            console.log(index);
                 $('input[type="checkbox"]').eq(i).prop('disabled', true);
                 $('input[type="checkbox"]').eq(i).parent().css('color', 'grey');
             }
@@ -177,7 +185,26 @@ function validateEmail(){
     }
 }
 
+function validateActivity(){
+    var counter = 0;
+    $('input[type="checkbox"]:checked').each(function(){
+        counter++;
+    });
+    
+    if(counter === 0){
+        $('fieldset:eq(2)').prepend(activityError);
+        $('fieldset:eq(2) p').show();
+        return true;
+    }else{
+        return false;
+    }
+}
+
 function validateForm(e){
+    
+    if(validateActivity()){
+        e.preventDefault();
+    }
     
     if(validateEmail()){
         e.preventDefault();
