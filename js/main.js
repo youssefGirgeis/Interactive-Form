@@ -4,10 +4,12 @@ var $colorLabel = $('#colors-js-puns label');
 var $colorMenu = $('#color');
 var $colorOptions = $('#color option');
 var total = 0;
+var ccNumber = $('#cc-num');
+
 var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
 var activityError = $('<p>Please select at least one activity</p>').css('color', '#932631');
-var ccNumber = $('#cc-num');
+var creditCardError = $('<span> Number is not valid</span>').css('color', '#932631');
 
 
 // function below, when page loads, gives focus to the first text field 
@@ -235,15 +237,21 @@ function validateCreditCard(){
     }
     
     if(sum % 10 !== checkDigit){
+        $('label[for="cc-num"]').append(creditCardError);
+        $('label[for="cc-num"] span').show();
         return true;
     }else{
+        $('label[for="cc-num"] span').hide();
         return false;
-        }
+    }
 
 }
 
 
 function validateForm(e){
+    if(validateCreditCard()){
+        e.preventDefault();
+    }
     
     if(validateActivity()){
         e.preventDefault();
@@ -254,10 +262,6 @@ function validateForm(e){
     }
 
     if(validateName()){
-        e.preventDefault();
-    }
-    
-    if(validateCreditCard()){
         e.preventDefault();
     }
 
