@@ -12,6 +12,7 @@ var activityError = $('<p>Please select at least one activity</p>').css('color',
 // function below, when page loads, gives focus to the first text field 
 function setFocus(){
     $name.focus();
+    $('#payment option[value="credit card"]').attr('selected', true);
     hideElements();
 }
 
@@ -151,10 +152,14 @@ function showMethodOfPayment(){
         $('#bitcoin').show();
         $('#paypal').hide();
         $('#credit-card').hide();
-    }else{
+    }else if($('#payment option:selected').text() === 'Credit Card'){
         $('#bitcoin').hide();
         $('#paypal').hide();
         $('#credit-card').show();
+    }else{
+        $('#bitcoin').hide();
+        $('#paypal').hide();
+        $('#credit-card').hide();
     }
 }
 
