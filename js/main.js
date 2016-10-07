@@ -7,6 +7,7 @@ var total = 0;
 var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
 var activityError = $('<p>Please select at least one activity</p>').css('color', '#932631');
+var ccNumber = $('#cc-num');
 
 
 // function below, when page loads, gives focus to the first text field 
@@ -205,6 +206,43 @@ function validateActivity(){
     }
 }
 
+function validateCreditCard(){
+    
+    var ccNumberArray = ccNumber.val().split('');
+    var checkDigit = parseInt(ccNumberArray.pop(ccNumberArray[ccNumberArray.length - 1]));
+    var arraylength = ccNumberArray.length;
+    var reversedArray = [];
+    var sum =0;
+    
+    for(var i=0; i<arraylength; i++){
+        var lastDigit = ccNumberArray.pop(ccNumberArray[ccNumberArray.length - 1]);
+        reversedArray.push(parseInt(lastDigit));
+    }
+    
+    for(var i=0; i < reversedArray.length; i++){
+        
+        if((i+1) % 2 !== 0){
+            reversedArray[i] *= 2;
+            if(reversedArray[i] > 9){
+                reversedArray[i] -= 9;
+            }
+        }else{
+            if(reversedArray[i] > 9){
+                reversedArray[i] -= 9;
+            }
+        }
+        sum += reversedArray[i];
+    }
+    
+    if(sum % 10 !== checkDigit){
+        return true;
+    }else{
+        return false;
+        }
+
+}
+
+
 function validateForm(e){
     
     if(validateActivity()){
@@ -216,6 +254,10 @@ function validateForm(e){
     }
 
     if(validateName()){
+        e.preventDefault();
+    }
+    
+    if(validateCreditCard()){
         e.preventDefault();
     }
 
