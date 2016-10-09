@@ -9,7 +9,7 @@ var ccNumber = $('#cc-num');
 var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
 var activityError = $('<p>Please select at least one activity</p>').css('color', '#932631');
-var creditCardError = $('<span> Number is not valid</span>').css('color', '#932631');
+//var creditCardError = $('<span> Number is not valid</span>').css('color', '#932631');
 
 
 // function below, when page loads, gives focus to the first text field 
@@ -202,6 +202,7 @@ function validateActivity(){
     if(counter === 0){
         $('fieldset:eq(2)').prepend(activityError);
         $('fieldset:eq(2) p').show();
+        
         return true;
     }else{
         return false;
@@ -236,20 +237,48 @@ function validateCreditCard(){
         sum += reversedArray[i];
     }
     
-    if(sum % 10 !== checkDigit){
-        $('label[for="cc-num"]').append(creditCardError);
+    if(sum % 10 !== checkDigit || $('#cc-num').val() === ''){
+        $('label[for="cc-num"]').css('color', '#932631');
+        $('label[for="cc-num"]').focus();
         $('label[for="cc-num"] span').show();
         return true;
     }else{
-        $('label[for="cc-num"] span').hide();
+        $('label[for="cc-num"]').css('color', 'initial');
         return false;
     }
+}
 
+function validateZipCode(){
+    if($('#zip').val() === ''){
+        $('label[for="zip"]').css('color', '#932631');
+        return true;
+    }else{
+        $('label[for="zip"]').css('color', 'initial');
+        return false;
+    }
+}
+
+function validateCVV(){
+    if($('#cvv').val() === ''){
+        $('label[for="cvv"]').css('color', '#932631');
+        return true;
+    }else{
+        $('label[for="cvv"]').css('color', 'initial');
+        return false;
+    }
 }
 
 
 function validateForm(e){
     if(validateCreditCard()){
+        e.preventDefault();
+    }
+    
+    if(validateZipCode()){
+        e.preventDefault();
+    }
+    
+    if(validateCVV()){
         e.preventDefault();
     }
     
