@@ -1,5 +1,3 @@
-'use strict';
-
 var $name = $('#name'); //input field for the name.
 var $otherTitle = $('#other-title'); // text field input
 var $colorLabel = $('#colors-js-puns label'); // color label
