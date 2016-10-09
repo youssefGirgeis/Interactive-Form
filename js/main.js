@@ -293,6 +293,13 @@ function validateForm(e){
     if(validateName()){
         e.preventDefault();
     }
+    
+    if($('#payment option:selected').val() === 'select_method'){
+        $('label[for="payment"]').css('color', '#932631');
+        e.preventDefault();
+    }else{
+         $('label[for="payment"]').css('color', 'initial');
+    }
 
 }
 
