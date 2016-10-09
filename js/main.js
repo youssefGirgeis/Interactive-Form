@@ -1,15 +1,15 @@
 var $name = $('#name'); //input field for the name.
-var $otherTitle = $('#other-title');
-var $colorLabel = $('#colors-js-puns label');
-var $colorMenu = $('#color');
-var $colorOptions = $('#color option');
-var total = 0;
-var ccNumber = $('#cc-num');
+var $otherTitle = $('#other-title'); // text field input
+var $colorLabel = $('#colors-js-puns label'); // color label
+var $colorMenu = $('#color'); // color select menu
+var $colorOptions = $('#color option'); // all colors in the menu
+var total = 0; // total amount of money
+var ccNumber = $('#cc-num'); // credit card number
 
 var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
 var activityError = $('<p>Please select at least one activity</p>').css('color', '#932631');
-//var creditCardError = $('<span> Number is not valid</span>').css('color', '#932631');
+
 
 
 // function below, when page loads, gives focus to the first text field 
@@ -87,103 +87,111 @@ function matchDesignColor(){
     });
 }
 
+// function below for extracting the value of the money from the activity info.
 function getMoney(event){
-    var startIndex = event.indexOf('$');
-    var endIndex = event.length;
-    return parseInt(event.substr(startIndex + 1, endIndex - 1));
+    var startIndex = event.indexOf('$'); // index of the dollar sign
+    var endIndex = event.length; // length of an activity string 
+    return parseInt(event.substr(startIndex + 1, endIndex - 1)); // amout of money
 }
 
-
+// this function is for extracting the date of the event
 function getEventDate(event){
-    var startIndex = event.indexOf('—');
-    var end = event.length - (startIndex + 8); 
-    return event.substr(startIndex + 2, end);
+    var startIndex = event.indexOf('—'); // index of the - character 
+    var end = event.length - (startIndex + 8);  // index of the end of the date
+    return event.substr(startIndex + 2, end); // date
 }
 
 
 function registerActivity(){
-    $('.total-money').css('display', 'Block');
-    var event = $(this).parent().text();
+    $('.total-money').css('display', 'Block'); // amount of money displayed when user select an activity
+    var event = $(this).parent().text(); // activity string 
     
-    var money = getMoney(event);
-    var date = getEventDate(event);
+    var money = getMoney(event); // call getMoney to get the amount of money
+    var date = getEventDate(event); // call geteventDate to get the date of the activity 
     
     //difference is used to make the first label element's index to be zero.
     var difference = $('fieldset:eq(2)').children().length - $('fieldset:eq(2) label').length;
     var index = $(this).parent().index() - difference; // index of the label element
     
-    if($(this).is(':checked')){
+    if($(this).is(':checked')){ // if an activity is checked 
         
         $('fieldset:eq(2) p').hide(); // hide error message when activity been checked.
         
-        total += money;
-        $('.total').text('$'+total);
+        total += money; // to calculate the total amount of money
+        $('.total').text('$'+total); // display total amount of money
         
-        for(var i=0; i < $('input[type="checkbox"]').length; i++){
+        for(var i=0; i < $('input[type="checkbox"]').length; i++){ // loop through all checkboxes
+            
+            //condition below is used to check if two activities with same date
             if(date === getEventDate($('input[type="checkbox"]').eq(i).parent().text()) && i !== index){
             console.log(index);
-                $('input[type="checkbox"]').eq(i).prop('disabled', true);
-                $('input[type="checkbox"]').eq(i).parent().css('color', 'grey');
+                $('input[type="checkbox"]').eq(i).prop('disabled', true); // disable if date is the same
+                $('input[type="checkbox"]').eq(i).parent().css('color', 'grey'); // change color to grey
             }
         }
             
-    }else{
+    }else{ // if an activity was checked and then unchecked
         
-        total -= money;
-        for(var i=0; i < $('input[type="checkbox"]').length; i++){
+        total -= money; // subtract the total - amount of money
+        for(var i=0; i < $('input[type="checkbox"]').length; i++){ // loop through all checkboxes
+            
+            //condition below is used to check if two activities with same date
             if(date === getEventDate($('input[type="checkbox"]').eq(i).parent().text())){
-                $('input[type="checkbox"]').eq(i).prop('disabled', false);
-                $('input[type="checkbox"]').eq(i).parent().css('color', 'black');
+                $('input[type="checkbox"]').eq(i).prop('disabled', false); // enable the event
+                $('input[type="checkbox"]').eq(i).parent().css('color', 'black'); // change color to black again.
             }
         }
         
-        if(total === 0){
-            $('.total-money').css('display', 'none');
+        if(total === 0){ // if no selection
+            $('.total-money').css('display', 'none'); // total money not displayed 
         }else{
             $('.total').text('$'+total);
         }
     }
 }
-    
+
+// function below to display the method of payment users choose from three options
 function showMethodOfPayment(){
    
-    if($('#payment option:selected').text() === 'PayPal'){
+    if($('#payment option:selected').text() === 'PayPal'){ // if it is paypal
         $('#paypal').show();
         $('#credit-card').hide();
         $('#bitcoin').hide();
-    }else if($('#payment option:selected').text() === 'Bitcoin'){
+    }else if($('#payment option:selected').text() === 'Bitcoin'){ // if it's bitcoin
         $('#bitcoin').show();
         $('#paypal').hide();
         $('#credit-card').hide();
-    }else if($('#payment option:selected').text() === 'Credit Card'){
+    }else if($('#payment option:selected').text() === 'Credit Card'){ // if it's a credit card
         $('#bitcoin').hide();
         $('#paypal').hide();
         $('#credit-card').show();
-    }else{
+    }else{ // if nothing then nothing to display
         $('#bitcoin').hide();
         $('#paypal').hide();
         $('#credit-card').hide();
     }
 }
 
+// function below to validate the name text field
 function validateName(){
-    if($name.val() === ''){
-        $('label[for="name"]').css('color', '#932631');
-        $('.error-name').text('(Please provide name before submission)');
-        $('label[for="name"]').focus();
+    if($name.val() === ''){ // if user enters nothing
+        $('label[for="name"]').css('color', '#932631'); // change the color of the label to red
+        $('.error-name').text('(Please provide name before submission)'); // display an error message
+        $('label[for="name"]').focus(); // focus on the name
         return true;
-    }else{
-        $('label[for="name"]').css('color', 'initial');
-        $('.error-name').text('');
+    }else{ // if there is a value
+        $('label[for="name"]').css('color', 'initial'); // color to initial
+        $('.error-name').text(''); // remove error message
         return false;
     }
 }
 
+// function below to validate email address
 function validateEmail(){
-    if($('#mail').val() === '' || !re.test($('#mail').val())){
+    if($('#mail').val() === '' || !re.test($('#mail').val())){ // if user enters wrong format of email address
         
-        $('label[for="mail"]').css('color', '#932631');
-        $('.error-email').text('(Please provide valid email address)');
+        $('label[for="mail"]').css('color', '#932631'); // change the color of label to red
+        $('.error-email').text('(Please provide valid email address)'); // display an error message
         $('label[for="mail"]').focus();
         return true;
     }else{
@@ -193,15 +201,16 @@ function validateEmail(){
     }
 }
 
+// function to make sure at least one activity checked
 function validateActivity(){
-    var counter = 0;
-    $('input[type="checkbox"]:checked').each(function(){
+    var counter = 0;// to count checked activities
+    $('input[type="checkbox"]:checked').each(function(){ // all checked activities
         counter++;
     });
     
-    if(counter === 0){
-        $('fieldset:eq(2)').prepend(activityError);
-        $('fieldset:eq(2) p').show();
+    if(counter === 0){ // if no activity checked
+        $('fieldset:eq(2)').prepend(activityError); // add this error message on top the list of activites
+        $('fieldset:eq(2) p').show(); // display error message
         
         return true;
     }else{
@@ -209,35 +218,36 @@ function validateActivity(){
     }
 }
 
+// function to validate cerdit card
 function validateCreditCard(){
     
-    var ccNumberArray = ccNumber.val().split('');
-    var checkDigit = parseInt(ccNumberArray.pop(ccNumberArray[ccNumberArray.length - 1]));
-    var arraylength = ccNumberArray.length;
-    var reversedArray = [];
-    var sum =0;
+    var ccNumberArray = ccNumber.val().split(''); // change the number from string to array of characters 
+    var checkDigit = parseInt(ccNumberArray.pop(ccNumberArray[ccNumberArray.length - 1])); // last digit
+    var arraylength = ccNumberArray.length; // length of the number
+    var reversedArray = []; // array for the reversed number
+    var sum =0; // used for validation
     
     for(var i=0; i<arraylength; i++){
-        var lastDigit = ccNumberArray.pop(ccNumberArray[ccNumberArray.length - 1]);
-        reversedArray.push(parseInt(lastDigit));
+        var lastDigit = ccNumberArray.pop(ccNumberArray[ccNumberArray.length - 1]); // remove the last digit from the number
+        reversedArray.push(parseInt(lastDigit)); // added to revered array at the begining 
     }
     
-    for(var i=0; i < reversedArray.length; i++){
+    for(var i=0; i < reversedArray.length; i++){ // loop through reversed array
         
-        if((i+1) % 2 !== 0){
-            reversedArray[i] *= 2;
-            if(reversedArray[i] > 9){
-                reversedArray[i] -= 9;
+        if((i+1) % 2 !== 0){ // if the position of digit is odd
+            reversedArray[i] *= 2; // multiply digit by 2
+            if(reversedArray[i] > 9){ // if it's bigger than 9
+                reversedArray[i] -= 9; // subtract 9
             }
         }else{
             if(reversedArray[i] > 9){
                 reversedArray[i] -= 9;
             }
         }
-        sum += reversedArray[i];
+        sum += reversedArray[i]; // add all numbers
     }
     
-    if(sum % 10 !== checkDigit || $('#cc-num').val() === ''){
+    if(sum % 10 !== checkDigit || $('#cc-num').val() === ''){ 
         $('label[for="cc-num"]').css('color', '#932631');
         $('label[for="cc-num"]').focus();
         $('label[for="cc-num"] span').show();
@@ -248,6 +258,7 @@ function validateCreditCard(){
     }
 }
 
+// function below to make sure users enter a value for zip code
 function validateZipCode(){
     if($('#zip').val() === ''){
         $('label[for="zip"]').css('color', '#932631');
@@ -258,6 +269,7 @@ function validateZipCode(){
     }
 }
 
+// function below to make sure users enter a value for CVV
 function validateCVV(){
     if($('#cvv').val() === ''){
         $('label[for="cvv"]').css('color', '#932631');
@@ -268,7 +280,8 @@ function validateCVV(){
     }
 }
 
-
+// function below is used to prevent submission of the form if
+//the user is missing something or enters anything wrong
 function validateForm(e){
     if(validateCreditCard()){
         e.preventDefault();
@@ -294,13 +307,12 @@ function validateForm(e){
         e.preventDefault();
     }
     
-    if($('#payment option:selected').val() === 'select_method'){
+    if($('#payment option:selected').val() === 'select_method'){ // if user didnt choose method of payment
         $('label[for="payment"]').css('color', '#932631');
         e.preventDefault();
     }else{
          $('label[for="payment"]').css('color', 'initial');
     }
-
 }
 
 $('#title').on('change', createOtherRole);
