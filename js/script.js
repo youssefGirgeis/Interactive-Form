@@ -9,6 +9,12 @@ const customRole = document.getElementById("other-job-role");
 // Job Role drop-down menu
 const jobRole = document.getElementById("title");
 
+// colors drop-down menu
+const colors = document.getElementById("color");
+
+// design drop-down menu
+const design = document.getElementById("design");
+
 // Main functions
 
 /**
@@ -36,7 +42,33 @@ const displayOtherRole = () => {
   });
 };
 
+/**
+ * Diable the color menu when form loads
+ */
+const disableColor = () => {
+  colors.disabled = true;
+};
+
+/**
+ * Enable the color menu and display colors
+ * based on the user's design (design menu) selection
+ */
+const displayColor = () => {
+  design.addEventListener("change", (e) => {
+    colors.disabled = false;
+    for (let i = 1; i < colors.length; i++) {
+      if (colors[i].dataset.theme != e.target.value) {
+        colors[i].hidden = true;
+      } else {
+        colors[i].hidden = false;
+      }
+    }
+  });
+};
+
 // function call
 focusName();
 hideOtherRole();
 displayOtherRole();
+disableColor();
+displayColor();
