@@ -6,6 +6,9 @@ const nameInput = document.getElementById("name");
 // input for the other role
 const customRole = document.getElementById("other-job-role");
 
+// Job Role drop-down menu
+const jobRole = document.getElementById("title");
+
 // Main functions
 
 /**
@@ -23,6 +26,17 @@ const hideOtherRole = () => {
   customRole.hidden = true;
 };
 
-// function calls
+/**
+ * display/hide "other job role" input based on user's selection
+ */
+const displayOtherRole = () => {
+  jobRole.addEventListener("change", (e) => {
+    if (e.target.value === "other") customRole.hidden = false;
+    else customRole.hidden = true;
+  });
+};
+
+// function call
 focusName();
 hideOtherRole();
+displayOtherRole();
