@@ -15,6 +15,12 @@ const colors = document.getElementById("color");
 // design drop-down menu
 const design = document.getElementById("design");
 
+// activities checkboxes
+const activities = document.getElementById("activities");
+
+// activities total cost
+const totalCost = document.getElementById("activities-cost");
+
 // Main functions
 
 /**
@@ -66,9 +72,23 @@ const displayColor = () => {
   });
 };
 
+/**
+ * Update the total cost when an activity is checked
+ */
+const updateTotalCost = () => {
+  let total = 0;
+  activities.addEventListener("change", (e) => {
+    if (e.target.checked) total += parseInt(e.target.dataset.cost);
+    else total -= parseInt(e.target.dataset.cost);
+
+    totalCost.textContent = `Total: $${total}`;
+  });
+};
+
 // function call
 focusName();
 hideOtherRole();
 displayOtherRole();
 disableColor();
 displayColor();
+updateTotalCost();
