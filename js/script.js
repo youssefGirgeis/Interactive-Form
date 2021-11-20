@@ -21,6 +21,18 @@ const activities = document.getElementById("activities");
 // activities total cost
 const totalCost = document.getElementById("activities-cost");
 
+// payment method drop-down menu
+const payment = document.getElementById("payment");
+
+// credit card info
+const creditCard = document.getElementById("credit-card");
+
+// paypal info
+const paypal = document.getElementById("paypal");
+
+// bitcoin info
+const bitcoin = document.getElementById("bitcoin");
+
 // Main functions
 
 /**
@@ -85,6 +97,21 @@ const updateTotalCost = () => {
   });
 };
 
+/**
+ * hide paypal and bitcoin payment methods when form loads
+ */
+const hidePaymentMethods = () => {
+  paypal.style.display = "none";
+  bitcoin.style.display = "none";
+};
+
+// const selectPayment = () => {
+//   payment[1].selected = true;
+//   payment.addEventListener('change', (e) => {
+
+//   });
+// };
+
 // function call
 focusName();
 hideOtherRole();
@@ -92,3 +119,4 @@ displayOtherRole();
 disableColor();
 displayColor();
 updateTotalCost();
+hidePaymentMethods();
