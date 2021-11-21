@@ -105,12 +105,21 @@ const hidePaymentMethods = () => {
   bitcoin.style.display = "none";
 };
 
-// const selectPayment = () => {
-//   payment[1].selected = true;
-//   payment.addEventListener('change', (e) => {
+/**
+ * display payment method when selected and hide the others
+ */
+const selectPayment = () => {
+  const paymentMethods = [creditCard, bitcoin, paypal];
+  payment[1].selected = true;
 
-//   });
-// };
+  payment.addEventListener("change", (e) => {
+    for (const paymentMethod of paymentMethods) {
+      if (e.target.value === paymentMethod.id)
+        paymentMethod.style.display = "block";
+      else paymentMethod.style.display = "none";
+    }
+  });
+};
 
 // function call
 focusName();
@@ -120,3 +129,4 @@ disableColor();
 displayColor();
 updateTotalCost();
 hidePaymentMethods();
+selectPayment();
