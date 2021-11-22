@@ -33,6 +33,22 @@ const paypal = document.getElementById("paypal");
 // bitcoin info
 const bitcoin = document.getElementById("bitcoin");
 
+// form
+const form = document.getElementById("form");
+
+const cvv = document.getElementById("cvv");
+
+// Helper functions
+
+/**
+ *
+ * @param cvv - credit card's cvv
+ * @returns true if valid and false if not valid
+ */
+const isValidCVV = (cvv) => {
+  return cvv.length === 3 && !isNaN(cvv);
+};
+
 // Main functions
 
 /**
@@ -120,6 +136,11 @@ const selectPayment = () => {
     }
   });
 };
+
+form.addEventListener("submit", (e) => {
+  isValidCVV(cvv.value);
+  e.preventDefault();
+});
 
 // function call
 focusName();
