@@ -49,6 +49,15 @@ const isValidCVV = (cvv) => {
   return cvv.length === 3 && !isNaN(cvv);
 };
 
+/**
+ *
+ * @param zipCode - credit card owner's zip cide
+ * @returns true if valid and false if not valid
+ */
+const isvalidZipCode = (zipCode) => {
+  return cvv.length === 5 && !isNaN(cvv);
+};
+
 // Main functions
 
 /**
