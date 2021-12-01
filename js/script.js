@@ -36,7 +36,8 @@ const bitcoin = document.getElementById("bitcoin");
 // form
 const form = document.getElementById("form");
 
-const cvv = document.getElementById("cvv");
+const cvvInput = document.getElementById("cvv");
+const zipCodeInput = document.getElementById("zip");
 
 // Helper functions
 
@@ -46,7 +47,10 @@ const cvv = document.getElementById("cvv");
  * @returns true if valid and false if not valid
  */
 const isValidCVV = (cvv) => {
-  return cvv.length === 3 && !isNaN(cvv);
+  const isValid = /^\d{3}$/.test(cvv);
+  const borderColor = isValid ? "green" : "red";
+  cvvInput.style.borderColor = borderColor;
+  return isValid;
 };
 
 /**
@@ -55,7 +59,9 @@ const isValidCVV = (cvv) => {
  * @returns true if valid and false if not valid
  */
 const isvalidZipCode = (zipCode) => {
-  return cvv.length === 5 && !isNaN(cvv);
+  zipCodeInput.style.borderColor = "red";
+  // return zipCode.length === 5 && !isNaN(zipCode);
+  return /^\d{5}$/.test(zipCode);
 };
 
 // Main functions
@@ -147,8 +153,11 @@ const selectPayment = () => {
 };
 
 form.addEventListener("submit", (e) => {
-  isValidCVV(cvv.value);
-  e.preventDefault();
+  if (isValidCVV(cvvInput.value) && isvalidZipCode(zipCodeInput.value)) {
+    console.log("form is valid");
+  } else {
+    e.preventDefault();
+  }
 });
 
 // function call
